@@ -49,7 +49,7 @@ class UserController extends AbstractController
 
             $this->em->persist($user);
             $this->em->flush();
-            return $this->redirectToRoute('app_signup');
+            return $this->redirectToRoute('app_note');
         }
 
         return $this->render('user/index.html.twig', [
