@@ -36,6 +36,7 @@ class Note
     #[ORM\JoinColumn(nullable: false)]
     private ?user $id_user = null;
 
+
     public function getId(): ?int
     {
         return $this->id;
