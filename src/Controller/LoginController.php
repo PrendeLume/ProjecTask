@@ -32,5 +32,6 @@ class LoginController extends AbstractController
         $response = $security->logout(false);
 
         // ... return $response (if set) or e.g. redirect to the homepage
+        return $response;
     }
 }
