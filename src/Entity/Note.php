@@ -34,7 +34,7 @@ class Note
 
     #[ORM\ManyToOne(inversedBy: 'notes')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?user $id_user = null;
+    private ?User $id_user = null;
 
 
     public function getId(): ?int
