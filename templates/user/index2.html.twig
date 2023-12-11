@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block nav %}{% endblock %}
+{% block body %}
+    <div class="row">
+        <a class="btn btn-outline-primary w-50 mx-auto " href="{{ path('app_login') }}" role="button">Iniciar sesion</a>
+    </div>
+    <br>
+    <div class="row">
+        <a class="btn btn-outline-primary w-50 mx-auto" href="{{ path('app_signup') }}" role="button">Registrarse</a>
+    </div>
+
+
+{% endblock %}

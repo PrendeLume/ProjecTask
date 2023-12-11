@@ -15,7 +15,7 @@ class NoteController extends AbstractController
     {
         $this->em = $em;
     }
-    #[Route('/', name: 'app_note')]
+    #[Route('/note', name: 'app_note')]
     public function index(): Response
     {
         $note_repo = $this->em->getRepository(Note::class);

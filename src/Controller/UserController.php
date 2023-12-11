@@ -18,11 +18,11 @@ class UserController extends AbstractController
     {
         $this->em = $em;
     }
-    #[Route('/index', name: 'app_index')]
+    #[Route('/', name: 'app_index')]
     public function index(): Response
     {
-        return $this->render('user/index.html.twig', [
-            'controller_name' => 'UserController',
+        return $this->render('user/index2.html.twig', [
+
         ]);
     }
     #[Route('/signup', name: 'app_signup')]
