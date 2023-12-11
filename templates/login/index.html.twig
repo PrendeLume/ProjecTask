@@ -8,16 +8,20 @@
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
-    <form action="{{ path('app_login') }}" method="post">
-        <label for="username">Email:</label>
-        <input type="text" id="username" name="_username" value="{{ last_username }}">
+    <form action="{{ path('app_login') }}" method="post" class="my-5 mx-auto w-50">
+        <div class="row">
+            <label for="username" class="form-label">Email:</label>
+            <input type="text" id="username" class="form-control" name="_username" value="{{ last_username }}">
+        </div>
+        <div class="row">
+            <label for="password" class="form-label">Password:</label>
+            <input type="password" id="password" class="form-control" name="_password">
+        </div>
+        <div class="row">
+            {# If you want to control the URL the user is redirected to on success #}
+            <input type="hidden" name="_target_path" value="/signup">
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="_password">
-
-        {# If you want to control the URL the user is redirected to on success #}
-        <input type="hidden" name="_target_path" value="/signup">
-
-        <button type="submit">login</button>
+            <button type="submit" class="btn btn-primary mt-2">Iniciar Sesión</button>
+        </div>
     </form>
 {% endblock %}
