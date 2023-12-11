@@ -24,4 +24,6 @@ class NoteController extends AbstractController
             'notes' => $note
         ]);
     }
+
+
 }
