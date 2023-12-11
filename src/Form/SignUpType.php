@@ -27,7 +27,7 @@ class SignUpType extends AbstractType
                 ]
             ])
             ->add('surname', TextType::class, [
-                'label' => 'Apellido',
+                'label' => 'Apellidos',
                 'label_attr' => [
                     'class' => 'form-label'
                 ],
