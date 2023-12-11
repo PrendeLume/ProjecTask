@@ -29,10 +29,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
-    private ?string $password = null;
+    private ?string $password;
 
     #[ORM\Column(length: 50)]
-    private ?string $name = null;
+    private ?string $name;
 
     #[ORM\Column(length: 100, nullable: true)]
     private ?string $surname = null;
@@ -43,11 +43,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'id_user', targetEntity: Note::class, orphanRemoval: true)]
     private Collection $notes;
 
-    public function __construct()
+
+    /**
+     * @param string|null $email
+     * @param array $roles
+     * @param string|null $password
+     * @param string|null $name
+     * @param string|null $surname
+     * @param DateTimeImmutable|null $creation_date
+     */
+    public function __construct(?string $name, ?string $surname, ?string $password, ?string $email, array $roles, ?DateTimeImmutable $creation_date)
     {
+        $this->email = $email;
+        $this->roles = $roles;
+        $this->password = $password;
+        $this->name = $name;
+        $this->surname = $surname;
+        $this->creation_date = $creation_date;
         $this->notes = new ArrayCollection();
     }
-
 
 
     public function getId(): ?int
