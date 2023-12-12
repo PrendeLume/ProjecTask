@@ -44,5 +44,12 @@ class NoteController extends AbstractController
         ]);
     }
 
-
+    #[Route('/note/{idNota}', name: 'app_note_close')]
+    public function DeleteNote($idNota): Response
+    {
+        $nota = $this->em->getRepository(Note::class)->find($idNota);
+        $this->em->remove($nota);
+        $this->em->flush();
+        return $this->redirectToRoute('app_note');
+    }
 }

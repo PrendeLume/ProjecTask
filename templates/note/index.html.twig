@@ -35,7 +35,7 @@
         {% for note in notes %}
         <div class="col">
             <div class="card text-bg-{{ note.color }} my-2 h-100" style="width: 18rem;">
-                <div class="card-header d-flex justify-content-between">{{ note.title }}<button type="button" class="btn-close" aria-label="Close"></button></div>
+                <div class="card-header d-flex justify-content-between">{{ note.title }}<a href="{{ path('app_note_close', {'idNota': note.id}) }}" class="btn-close" aria-label="Close"></a></div>
                 <div class="card-body">
                     <p class="card-text align-top">{{ note.content}}</p>
                     <small class="text-body-secondary align-bottom">Last updated 3 mins ago</small>
