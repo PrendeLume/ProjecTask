@@ -36,6 +36,18 @@ class Note
     #[ORM\JoinColumn(nullable: false)]
     private ?User $id_user;
 
+    private string $text_color;
+
+    public function getTextColor(){
+        return $this->text_color;
+    }
+    public function setTextColor(?string $color): static
+    {
+        $this->text_color = $color;
+
+        return $this;
+    }
+
     /**
      * @param string|null $title
      * @param string|null $content

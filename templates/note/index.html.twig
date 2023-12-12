@@ -52,15 +52,15 @@
     </div>
     <div class="row row-cols-3 row-cols-md-4 g-4">
         {% for note in notes %}
-        <div class="col">
-            <div class="card text-bg-{{ note.color }} my-2 h-100" style="width: 18rem;">
-                <div class="card-header d-flex justify-content-between">{{ note.title }}<a href="{{ path('app_note_close', {'idNota': note.id}) }}" class="btn-close" aria-label="Close"></a></div>
-                <div class="card-body">
-                    <p class="card-text align-top">{{ note.content}}</p>
-                    <small class="text-body-secondary align-bottom">Última modificación {{ note.getModificationDate | date('Y-m-d H:i:s') }}</small>
+            <div class="col">
+                <div class="card my-2 h-100 color-texto" style="width: 18rem; background-color: {{ note.color }}; color: {{ note.getTextColor }}">
+                    <div class="card-header d-flex justify-content-between">{{ note.title }}<a href="{{ path('app_note_close', {'idNota': note.id}) }}" class="btn-close" aria-label="Close"></a></div>
+                    <div class="card-body">
+                        <p class="card-text align-top">{{ note.content}}</p>
+                        <small class="align-bottom">Última modificación {{ note.getModificationDate | date('Y-m-d H:i:s') }}</small>
+                    </div>
                 </div>
             </div>
-        </div>
         {% endfor %}
     </div>
 

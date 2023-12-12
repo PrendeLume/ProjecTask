@@ -24,6 +24,7 @@ class NoteController extends AbstractController
         $note = new Note('', '', '');
         $form = $this->createForm(NoteType::class, $note);
         $session = $request->getSession();
+
         $user_repo = $this->em->getRepository(User::class)->findOneBy(['email' => $session->get('registro')]);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
@@ -31,6 +32,7 @@ class NoteController extends AbstractController
             $note->setCreationDate(new \DateTimeImmutable());
             $note->setModificationDate(new \DateTimeImmutable());
             $note->setIdUser($user_repo);
+
             $this->em->persist($note);
             $this->em->flush();
             return $this->redirectToRoute('app_note');
@@ -38,10 +40,23 @@ class NoteController extends AbstractController
 
 
         $note = $user_repo->getNotes();
+        foreach ($note as $n){
+            $textColor = $this->isColorDark($n->getColor())? 'white' : 'black';
+            $n->setTextColor($textColor);
+        }
         return $this->render('note/index.html.twig', [
             'notes' => $note,
             'form' => $form
         ]);
+    }
+
+    function isColorDark($hexColor) {
+        $hexColor = ltrim($hexColor, '#');
+        $r = hexdec(substr($hexColor, 0, 2));
+        $g = hexdec(substr($hexColor, 2, 2));
+        $b = hexdec(substr($hexColor, 4, 2));
+        $luminosity = (0.299 * $r + 0.587 * $g + 0.114 * $b) / 255;
+        return $luminosity < 0.5; // Puedes ajustar este umbral según tus necesidades
     }
 
     #[Route('/note/{idNota}', name: 'app_note_close')]
