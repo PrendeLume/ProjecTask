@@ -24,20 +24,19 @@ class NoteController extends AbstractController
         $note = new Note('', '', '');
         $form = $this->createForm(NoteType::class, $note);
         $session = $request->getSession();
-
+        $user_repo = $this->em->getRepository(User::class)->findOneBy(['email' => $session->get('registro')]);
         $form->handleRequest($request);
-
         if($form->isSubmitted() && $form->isValid()){
 
             $note->setCreationDate(new \DateTimeImmutable());
             $note->setModificationDate(new \DateTimeImmutable());
-
+            $note->setIdUser($user_repo);
             $this->em->persist($note);
             $this->em->flush();
             return $this->redirectToRoute('app_note');
         }
 
-        $user_repo = $this->em->getRepository(User::class)->findOneBy(['email' => $session->get('registro')]);
+
         $note = $user_repo->getNotes();
         return $this->render('note/index.html.twig', [
             'notes' => $note,
