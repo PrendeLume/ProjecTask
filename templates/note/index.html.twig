@@ -5,24 +5,6 @@
 {% block body %}
     <br>
 
-{#
-<form action="{{ path('app_login') }}" method="post" class="my-5 mx-auto w-50">
-    <div class="row">
-        <label for="$title" class="form-label">Email:</label>
-        <input type="text" id="$title" class="form-control" name="_$title" value="{{ last_username }}">
-    </div>
-    <div class="row">
-        <label for="password" class="form-label">Password:</label>
-        <input type="password" id="password" class="form-control" name="_password">
-    </div>
-    <div class="row">
-        {# If you want to control the URL the user is redirected to on success
-    <input type="hidden" name="_target_path" value="/note">
-
-    <button type="submit" class="btn btn-primary mt-2">Iniciar Sesión</button>
-    </div>
-    </form>
-#}
     <div id="formulario" style="display: none">
 
         {{ form(form) }}
@@ -38,7 +20,7 @@
                 <div class="card-header d-flex justify-content-between">{{ note.title }}<a href="{{ path('app_note_close', {'idNota': note.id}) }}" class="btn-close" aria-label="Close"></a></div>
                 <div class="card-body">
                     <p class="card-text align-top">{{ note.content}}</p>
-                    <small class="text-body-secondary align-bottom">Last updated 3 mins ago</small>
+                    <small class="text-body-secondary align-bottom">Última modificación {{ note.getModificationDate | date('Y-m-d H:i:s') }}</small>
                 </div>
             </div>
         </div>
