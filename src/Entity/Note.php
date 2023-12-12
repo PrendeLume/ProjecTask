@@ -34,7 +34,19 @@ class Note
 
     #[ORM\ManyToOne(inversedBy: 'notes')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $id_user = null;
+    private ?User $id_user;
+
+    /**
+     * @param string|null $title
+     * @param string|null $content
+     * @param string|null $color
+     */
+    public function __construct(?string $title, ?string $content, ?string $color)
+    {
+        $this->title = $title;
+        $this->content = $content;
+        $this->color = $color;
+    }
 
 
     public function getId(): ?int
