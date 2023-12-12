@@ -6,8 +6,45 @@
     <br>
 
     <div id="formulario" style="display: none">
+        {{ form_start(form, {'attr': {'class': 'w-50 mx-auto my-5'}}) }}
+        <div class="row">
+            <div class="col">
 
-        {{ form(form) }}
+                {{ form_label(form.title) }}
+                {{ form_errors(form.title) }}
+                {{ form_widget(form.title) }}
+
+            </div>
+
+        </div>
+        <div class="row">
+
+            <div class="col">
+
+                {{ form_label(form.content) }}
+                {{ form_errors(form.content) }}
+                {{ form_widget(form.content) }}
+
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col">
+
+                {{ form_label(form.color) }}
+                {{ form_errors(form.color) }}
+                {{ form_widget(form.color) }}
+
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col d-flex justify-content-end">
+
+                {{ form_widget(form.submit) }}
+
+            </div>
+        </div>
+        {{ form_end(form) }}
     </div>
 
     <div class="row">
