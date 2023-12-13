@@ -54,7 +54,13 @@
         {% for note in notes %}
             <div class="col my-2">
                 <div id="nota{{ note.id }}" class="card my-2 h-100 color-texto" data-rute="{{ path('app_note_modification') }}" style="width: 18rem; background-color: {{ note.color }}; color: {{ note.getTextColor }}">
-                    <div class="card-header d-flex justify-content-between">{{ note.title }}<div class="d-flex justify-content-around"><a href="" class="btn" data-bs-toggle="modal" data-bs-target="#modal-modificate"><i class="fa-solid fa-gear " style="color: {{ note.getTextColor }}"></i></a> <a href="{{ path('app_note_close', {'idNota': note.id}) }}" class="btn"><i class="fa-solid fa-x" style="color: {{ note.getTextColor }}"></i></a></div></div>
+                    <div class="card-header d-flex justify-content-between">
+                        {{ note.title }}
+                        <div class="d-flex justify-content-around">
+                            <a href="" class="btn" data-bs-toggle="modal" data-bs-target="#modal-modificate"><i class="fa-solid fa-gear " style="color: {{ note.getTextColor }}"></i></a>
+                            <a href="" class="btn" id="delete{{ note.id }}" onclick="deleteNote({{ note.id }})"><i class="fa-solid fa-x" style="color: {{ note.getTextColor }}"></i></a>
+                        </div>
+                    </div>
                     <div class="card-body">
                         <p class="card-text align-top">{{ note.content}}</p>
                         <small class="align-bottom">Última modificación {{ note.getModificationDate | date('Y-m-d H:i:s') }}</small>
@@ -120,6 +126,7 @@
     {% block javascripts %}
         {{ parent() }}
         <script src="{{ asset('asset/js/formularioNotas.js') }}"></script>
+        {# Modificacion de las notas por ajax #}
         <script>
             document.getElementById('saveChange').addEventListener('click', function() {
                 var xhr = new XMLHttpRequest();
@@ -150,5 +157,6 @@
                 xhr.send(data);
             });
         </script>
+
     {% endblock %}
 {% endblock %}

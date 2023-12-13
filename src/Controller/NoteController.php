@@ -64,12 +64,26 @@ class NoteController extends AbstractController
     }
 
     #[Route('/note/delete', name: 'app_note_close')]
-    public function DeleteNote($idNota): Response
+    public function DeleteNote(Request $request): JsonResponse
     {
-        $nota = $this->em->getRepository(Note::class)->find($idNota);
-        $this->em->remove($nota);
+        $data = json_decode($request->getContent(), true);
+        // Verificar si se recibió el ID de la nota
+        if (!isset($data['id'])) {
+            return new JsonResponse(['message' => 'Falta el parámetro ID en la solicitud'], 400);
+        }
+
+        // Obtener el ID de la nota a eliminar
+        $noteId = $data['id'];
+
+        $note = $this->em->getRepository(Note::class)->find($noteId);
+        // Verificar si la nota existe
+        if (!$note) {
+            return new JsonResponse(['message' => 'La nota no existe'], 404);
+        }
+
+        $this->em->remove($note);
         $this->em->flush();
-        return $this->redirectToRoute('app_note');
+        return new JsonResponse(['message' => 'Nota eliminada correctamente']);
     }
 
     #[Route('/note/modification', name: 'app_note_modification')]
