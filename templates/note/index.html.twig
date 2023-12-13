@@ -50,11 +50,11 @@
     <div class="row">
         <button id="form01" type="button" class="btn btn-outline-success" onclick="Aparicionformulario()">Crear</button>
     </div>
-    <div id="listar-notas" class="row row-cols-3 row-cols-md-4 g-4">
+    <div id="listar-notas" class="row row-cols-auto">
         {% for note in notes %}
-            <div class="col">
+            <div class="col my-2">
                 <div id="nota{{ note.id }}" class="card my-2 h-100 color-texto" data-rute="{{ path('app_note_modification', {'idNota': note.id}) }}" style="width: 18rem; background-color: {{ note.color }}; color: {{ note.getTextColor }}">
-                    <div class="card-header d-flex justify-content-between">{{ note.title }}<div class="d-flex justify-content-between"><a href="{{ path('app_note_modification', {'idNota': note.id}) }}"><i class="fa-solid fa-gear " style="color: {{ note.getTextColor }}"></i></a> <a href="{{ path('app_note_close', {'idNota': note.id}) }}" class="btn-close mx-2" aria-label="Close"></a></div></div>
+                    <div class="card-header d-flex justify-content-between">{{ note.title }}<div class="d-flex justify-content-around"><a href="{{ path('app_note_modification', {'idNota': note.id}) }}" class="btn"><i class="fa-solid fa-gear " style="color: {{ note.getTextColor }}"></i></a> <a href="{{ path('app_note_close', {'idNota': note.id}) }}" class="btn"><i class="fa-solid fa-x" style="color: {{ note.getTextColor }}"></i></a></div></div>
                     <div class="card-body">
                         <p class="card-text align-top">{{ note.content}}</p>
                         <small class="align-bottom">Última modificación {{ note.getModificationDate | date('Y-m-d H:i:s') }}</small>
