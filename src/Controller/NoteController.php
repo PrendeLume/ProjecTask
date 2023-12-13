@@ -24,6 +24,7 @@ class NoteController extends AbstractController
     {
         $note = new Note('', '', '');
         $form = $this->createForm(NoteType::class, $note);
+        $form2 = $this->createForm(NoteType::class, $note);
         $session = $request->getSession();
 
         $user_repo = $this->em->getRepository(User::class)->findOneBy(['email' => $session->get('registro')]);
@@ -47,7 +48,8 @@ class NoteController extends AbstractController
         }
         return $this->render('note/index.html.twig', [
             'notes' => $note,
-            'form' => $form
+            'form' => $form,
+            'form2' => $form2
         ]);
     }
 
@@ -70,7 +72,7 @@ class NoteController extends AbstractController
         return $this->redirectToRoute('app_note');
     }
 
-    #[Route('/note/{idNota}/modificated', name: 'app_note_modification')]
+    #[Route('/note/modificated', name: 'app_note_modification')]
     public function Modification($idNota): Response
     {
 

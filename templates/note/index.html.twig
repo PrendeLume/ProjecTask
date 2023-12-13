@@ -53,8 +53,8 @@
     <div id="listar-notas" class="row row-cols-auto">
         {% for note in notes %}
             <div class="col my-2">
-                <div id="nota{{ note.id }}" class="card my-2 h-100 color-texto" data-rute="{{ path('app_note_modification', {'idNota': note.id}) }}" style="width: 18rem; background-color: {{ note.color }}; color: {{ note.getTextColor }}">
-                    <div class="card-header d-flex justify-content-between">{{ note.title }}<div class="d-flex justify-content-around"><a href="{{ path('app_note_modification', {'idNota': note.id}) }}" class="btn"><i class="fa-solid fa-gear " style="color: {{ note.getTextColor }}"></i></a> <a href="{{ path('app_note_close', {'idNota': note.id}) }}" class="btn"><i class="fa-solid fa-x" style="color: {{ note.getTextColor }}"></i></a></div></div>
+                <div id="nota{{ note.id }}" class="card my-2 h-100 color-texto" data-rute="{{ path('app_note_modification') }}" style="width: 18rem; background-color: {{ note.color }}; color: {{ note.getTextColor }}">
+                    <div class="card-header d-flex justify-content-between">{{ note.title }}<div class="d-flex justify-content-around"><a href="" class="btn" data-bs-toggle="modal" data-bs-target="#modal-modificate"><i class="fa-solid fa-gear " style="color: {{ note.getTextColor }}"></i></a> <a href="{{ path('app_note_close', {'idNota': note.id}) }}" class="btn"><i class="fa-solid fa-x" style="color: {{ note.getTextColor }}"></i></a></div></div>
                     <div class="card-body">
                         <p class="card-text align-top">{{ note.content}}</p>
                         <small class="align-bottom">Última modificación {{ note.getModificationDate | date('Y-m-d H:i:s') }}</small>
@@ -64,6 +64,59 @@
         {% endfor %}
     </div>
 
+    {# Modal de modificación de las notas #}
+    <div class="modal fade" id="modal-modificate" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="modification" class="w-50 mx-auto my-5" method="post" action="{{ path('app_note_modification') }}">
+
+                        {{ form_start(form) }}
+                        <div class="row">
+                            <div class="col">
+
+                                {{ form_label(form2.title) }}
+                                {{ form_errors(form2.title) }}
+                                {{ form_widget(form2.title) }}
+
+                            </div>
+
+                        </div>
+                        <div class="row">
+
+                            <div class="col">
+
+                                {{ form_label(form.content) }}
+                                {{ form_errors(form.content) }}
+                                {{ form_widget(form2.content) }}
+
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col">
+
+                                {{ form_label(form.color) }}
+                                {{ form_errors(form.color) }}
+                                {{ form_widget(form2.color) }}
+
+                            </div>
+                        </div>
+                        {{ form_end(form) }}
+                    </form>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="saveChange">Cambiar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {# Fin modal de modificación de las notas #}
     {% block javascripts %}
         {{ parent() }}
         <script src="{{ asset('asset/js/formularioNotas.js') }}"></script>
