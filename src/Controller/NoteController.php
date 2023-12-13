@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Form\NoteType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,7 +20,7 @@ class NoteController extends AbstractController
         $this->em = $em;
     }
     #[Route('/note', name: 'app_note')]
-    public function index(Request $request, $idUser = null): Response
+    public function index(Request $request): Response
     {
         $note = new Note('', '', '');
         $form = $this->createForm(NoteType::class, $note);
@@ -50,13 +51,14 @@ class NoteController extends AbstractController
         ]);
     }
 
-    function isColorDark($hexColor) {
+    //Funcion relacionada con el color del texto (white / black)
+    private function isColorDark($hexColor) {
         $hexColor = ltrim($hexColor, '#');
         $r = hexdec(substr($hexColor, 0, 2));
         $g = hexdec(substr($hexColor, 2, 2));
         $b = hexdec(substr($hexColor, 4, 2));
         $luminosity = (0.299 * $r + 0.587 * $g + 0.114 * $b) / 255;
-        return $luminosity < 0.5; // Puedes ajustar este umbral según tus necesidades
+        return $luminosity < 0.5; // Umbral de luminosidad
     }
 
     #[Route('/note/{idNota}', name: 'app_note_close')]
@@ -66,5 +68,16 @@ class NoteController extends AbstractController
         $this->em->remove($nota);
         $this->em->flush();
         return $this->redirectToRoute('app_note');
+    }
+
+    #[Route('/note/{idNota}/modificated', name: 'app_note_modification')]
+    public function Modification($idNota): Response
+    {
+
+        return $this->redirectToRoute('app_note');
+        /*return $this->render('note/index.html.twig', [
+            'notes' => $note,
+            'form' => $form
+        ]);*/
     }
 }

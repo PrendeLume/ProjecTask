@@ -8,6 +8,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ColorType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -26,7 +27,7 @@ class NoteType extends AbstractType
                     'class' => 'form-control'
                 ]
             ])
-            ->add('content', TextType::class, [
+            ->add('content', TextareaType::class, [
                 'label' => 'Contenido',
                 'label_attr' => [
                     'class' => 'form-label'
@@ -42,7 +43,9 @@ class NoteType extends AbstractType
                 ],
                 'attr' => [
                     'class' => 'form-control'
-                ]
+                ],
+                'data' => '#FFFFFF'
+                //DEB887
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Crear',
