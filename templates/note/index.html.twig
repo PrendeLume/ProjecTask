@@ -48,7 +48,9 @@
     </div>
 
     <div class="row">
-        <button id="form01" type="button" class="btn btn-outline-success" onclick="Aparicionformulario()">Crear</button>
+        <div class="col d-flex justify-content-center">
+            <button id="form01" type="button" class="btn btn-outline-success" onclick="Aparicionformulario()"><i class="fa-solid fa-plus"></i></button>
+        </div>
     </div>
     <div id="listar-notas" class="row row-cols-auto">
         {% for note in notes %}
@@ -57,7 +59,7 @@
                     <div class="card-header d-flex justify-content-between">
                         {{ note.title }}
                         <div class="d-flex justify-content-around">
-                            <a href="" class="btn" data-bs-toggle="modal" data-bs-target="#modal-modificate" onclick="getId({{ note.id }})"><i class="fa-solid fa-gear " style="color: {{ note.getTextColor }}"></i></a>
+                            <a href="" class="btn" data-bs-toggle="modal" data-bs-target="#modal-modificate" onclick="getFormMod({{ note.id }})"><i class="fa-solid fa-gear " style="color: {{ note.getTextColor }}"></i></a>
                             <a href="" class="btn" id="delete{{ note.id }}" onclick="deleteNote({{ note.id }})"><i class="fa-solid fa-x" style="color: {{ note.getTextColor }}"></i></a>
                         </div>
                     </div>

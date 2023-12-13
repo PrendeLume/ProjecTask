@@ -32,8 +32,29 @@ function deleteNote(id) {
     let data = JSON.stringify({ id: id });
     xhr.send(data);
 }
-function getId(id){
+function getFormMod(id){
      document.getElementById('modified').setAttribute('data-atributte', id);
+     let note = document.getElementById('note-'+id);
+
+
+     let data = note.innerText.split('\n');
+     let title = data[0];
+     let content = data[2];
+     let form = document.getElementById('modification');
+     form.elements['note[title]'].value = title;
+     form.elements['note[content]'].value = content;
+     let colorLength = note.style.backgroundColor.length;
+     let color = note.style.backgroundColor.substring(4, colorLength-1).split(', ');
+     form.elements['note[color]'].value = rgbToHex(color[0], color[1], color[2]);
+
+}
+
+function rgbToHex(r, g, b) {
+    r = Math.max(0, Math.min(255, r));
+    g = Math.max(0, Math.min(255, g));
+    b = Math.max(0, Math.min(255, b));
+
+    return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
 }
 
 function modificateNote() {

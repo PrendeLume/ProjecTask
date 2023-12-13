@@ -15,7 +15,7 @@
         {% block nav %}
             <nav class="navbar navbar-expand-lg bg-body-tertiary">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="#">projecTask</a>
+                    <a class="navbar-brand" href="{{ path('app_note') }}">projecTask</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
@@ -24,23 +24,17 @@
                             <li class="nav-item">
                                 <a class="nav-link active" aria-current="page" href="#">Home</a>
                             </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Dropdown
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                </ul>
-                            </li>
                         </ul>
-                        <form class="d-flex" role="search">
+                        <form class="d-flex me-5" role="search">
                             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
-                            <a class="btn btn-primary w-50 mx-3" href="{{ path('app_logout') }}" role="button">Log Out</a>
+                            <button class="btn btn-outline-success" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+
                         </form>
+                        <div class="d-flex ms-5">
+
+                            <a class="btn w-100 ms-3" href="#"><i class="fa-solid fa-user"></i></a>
+                            <a class="btn w-100 ms-1" href="{{ path('app_logout') }}" role="button"><i class="fa-solid fa-right-from-bracket" style="color: #ff0000;"></i></a>
+                        </div>
                     </div>
                 </div>
             </nav>
