@@ -63,7 +63,7 @@ class NoteController extends AbstractController
         return $luminosity < 0.5; // Umbral de luminosidad
     }
 
-    #[Route('/note/{idNota}', name: 'app_note_close')]
+    #[Route('/note/delete', name: 'app_note_close')]
     public function DeleteNote($idNota): Response
     {
         $nota = $this->em->getRepository(Note::class)->find($idNota);
@@ -72,14 +72,14 @@ class NoteController extends AbstractController
         return $this->redirectToRoute('app_note');
     }
 
-    #[Route('/note/modificated', name: 'app_note_modification')]
-    public function Modification($idNota): Response
+    #[Route('/note/modification', name: 'app_note_modification')]
+    public function modification(Request $request): JsonResponse
     {
+        // Obtener los datos enviados desde la solicitud AJAX
+        $data = json_decode($request->getContent(), true);
 
-        return $this->redirectToRoute('app_note');
-        /*return $this->render('note/index.html.twig', [
-            'notes' => $note,
-            'form' => $form
-        ]);*/
+        //return $this->redirectToRoute('app_note', ['mensaje' => '¡La modificación fue exitosa!']);
+        return new JsonResponse(['message' => 'Datos recibidos correctamente', 'data' => $data]);
+
     }
 }

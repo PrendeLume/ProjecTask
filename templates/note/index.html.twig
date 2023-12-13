@@ -73,7 +73,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="modification" class="w-50 mx-auto my-5" method="post" action="{{ path('app_note_modification') }}">
+                    <form id="modification" class="w-50 mx-auto my-5" method="post">
 
                         {{ form_start(form) }}
                         <div class="row">
@@ -120,6 +120,35 @@
     {% block javascripts %}
         {{ parent() }}
         <script src="{{ asset('asset/js/formularioNotas.js') }}"></script>
+        <script>
+            document.getElementById('saveChange').addEventListener('click', function() {
+                var xhr = new XMLHttpRequest();
+                var url = window.location + '/modification';
+                var data = JSON.stringify({ data: 'Información a enviar' });
 
+                xhr.open('POST', url, true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status === 200) {
+                            var response = JSON.parse(xhr.responseText);
+                            console.log('Respuesta del servidor:', response);
+                        } else {
+                            console.error('Error al realizar la solicitud:', xhr.status);
+                        }
+                        if (response.message === 'Datos recibidos correctamente') {
+                            console.log("Realizado correctamente");
+                        }
+                    }
+                };
+
+                xhr.onerror = function() {
+                    console.error('Error de red al realizar la solicitud.');
+                };
+
+                xhr.send(data);
+            });
+        </script>
     {% endblock %}
 {% endblock %}
