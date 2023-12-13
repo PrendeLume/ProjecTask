@@ -53,11 +53,11 @@
     <div id="listar-notas" class="row row-cols-auto">
         {% for note in notes %}
             <div class="col my-2">
-                <div id="nota{{ note.id }}" class="card my-2 h-100 color-texto" data-rute="{{ path('app_note_modification') }}" style="width: 18rem; background-color: {{ note.color }}; color: {{ note.getTextColor }}">
+                <div id="note-{{ note.id }}" class="card my-2 h-100 color-texto nota" data-rute="{{ path('app_note_modification') }}" style="width: 18rem; background-color: {{ note.color }}; color: {{ note.getTextColor }}">
                     <div class="card-header d-flex justify-content-between">
                         {{ note.title }}
                         <div class="d-flex justify-content-around">
-                            <a href="" class="btn" data-bs-toggle="modal" data-bs-target="#modal-modificate"><i class="fa-solid fa-gear " style="color: {{ note.getTextColor }}"></i></a>
+                            <a href="" class="btn" data-bs-toggle="modal" data-bs-target="#modal-modificate" onclick="getId({{ note.id }})"><i class="fa-solid fa-gear " style="color: {{ note.getTextColor }}"></i></a>
                             <a href="" class="btn" id="delete{{ note.id }}" onclick="deleteNote({{ note.id }})"><i class="fa-solid fa-x" style="color: {{ note.getTextColor }}"></i></a>
                         </div>
                     </div>
@@ -111,12 +111,13 @@
                                 {{ form_widget(form2.color) }}
 
                             </div>
+                            <input id="modified" type="hidden">
                         </div>
                         {{ form_end(form) }}
                     </form>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-primary" id="saveChange">Cambiar</button>
+                        <button type="button" class="btn btn-primary" id="saveChange" onclick="modificateNote()">Cambiar</button>
                     </div>
                 </div>
             </div>
@@ -126,37 +127,5 @@
     {% block javascripts %}
         {{ parent() }}
         <script src="{{ asset('asset/js/formularioNotas.js') }}"></script>
-        {# Modificacion de las notas por ajax #}
-        <script>
-            document.getElementById('saveChange').addEventListener('click', function() {
-                var xhr = new XMLHttpRequest();
-                var url = window.location + '/modification';
-                var data = JSON.stringify({ data: 'Información a enviar' });
-
-                xhr.open('POST', url, true);
-                xhr.setRequestHeader('Content-Type', 'application/json');
-
-                xhr.onreadystatechange = function() {
-                    if (xhr.readyState === XMLHttpRequest.DONE) {
-                        if (xhr.status === 200) {
-                            var response = JSON.parse(xhr.responseText);
-                            console.log('Respuesta del servidor:', response);
-                        } else {
-                            console.error('Error al realizar la solicitud:', xhr.status);
-                        }
-                        if (response.message === 'Datos recibidos correctamente') {
-                            console.log("Realizado correctamente");
-                        }
-                    }
-                };
-
-                xhr.onerror = function() {
-                    console.error('Error de red al realizar la solicitud.');
-                };
-
-                xhr.send(data);
-            });
-        </script>
-
     {% endblock %}
 {% endblock %}

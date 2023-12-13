@@ -32,7 +32,7 @@ class NoteController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
 
             $note->setCreationDate(new \DateTimeImmutable());
-            $note->setModificationDate(new \DateTimeImmutable());
+            $note->setModificationDate(new \DateTime());
             $note->setIdUser($user_repo);
 
             $this->em->persist($note);
@@ -89,11 +89,34 @@ class NoteController extends AbstractController
     #[Route('/note/modification', name: 'app_note_modification')]
     public function modification(Request $request): JsonResponse
     {
-        // Obtener los datos enviados desde la solicitud AJAX
-        $data = json_decode($request->getContent(), true);
+        $data = json_decode($request->getContent(), true)['data'];
+        // Verificar si se recibió el ID de la nota
+        if (!isset($data['id'])) {
+            return new JsonResponse(['message' => 'Falta el parámetro ID en la solicitud'], 400);
+        }
+        if (!isset($data['title'])) {
+            return new JsonResponse(['message' => 'Falta el parámetro Titulo en la solicitud'], 400);
+        }
+        if (!isset($data['content'])) {
+            return new JsonResponse(['message' => 'Falta el parámetro de Contenido en la solicitud'], 400);
+        }
+        if (!isset($data['color'])) {
+            return new JsonResponse(['message' => 'Falta el parámetro de Color en la solicitud'], 400);
+        }
+        // Obtener el ID de la nota a eliminar
+        $noteId = $data['id'];
 
-        //return $this->redirectToRoute('app_note', ['mensaje' => '¡La modificación fue exitosa!']);
-        return new JsonResponse(['message' => 'Datos recibidos correctamente', 'data' => $data]);
+        $note = $this->em->getRepository(Note::class)->find($noteId);
+        // Verificar si la nota existe
+        if (!$note) {
+            return new JsonResponse(['message' => 'La nota no existe'], 404);
+        }
+        $note->setTitle($data['title']);
+        $note->setContent($data['content']);
+        $note->setColor($data['color']);
+        $note->setModificationDate(new \DateTime());
 
+        $this->em->flush();
+        return new JsonResponse(['message' => 'Nota modificada correctamente']);
     }
 }
