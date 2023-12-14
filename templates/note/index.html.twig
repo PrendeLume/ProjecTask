@@ -73,12 +73,11 @@
     </div>
 
     {# Modal de modificación de las notas #}
-    <div class="modal fade" id="modal-modificate" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="modal-modificate" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="staticBackdropLabel">Modificación de notas</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="modification" class="w-50 mx-auto my-5" method="post">
@@ -118,7 +117,6 @@
                         {{ form_end(form) }}
                     </form>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                         <button type="button" class="btn btn-primary" id="saveChange" onclick="modificateNote()">Cambiar</button>
                     </div>
                 </div>
@@ -126,8 +124,30 @@
         </div>
     </div>
     {# Fin modal de modificación de las notas #}
+    {# Modal de etiquetas #}
+    <div class="modal fade" id="crearTag" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Crear Etiqueta</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="newTag" class="w-50 mx-auto my-5" method="post">
+                        <div class="input-group input-group-sm mb-3">
+                            <input id="etiqueta" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" placeholder="Crear Etiqueta">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="btnEtiqueta">Crear</button>
+                </div>
+            </div>
+        </div>
+    </div>
     {% block javascripts %}
         {{ parent() }}
         <script src="{{ asset('asset/js/formularioNotas.js') }}"></script>
+        <script src="{{ asset('asset/js/tags.js') }}"></script>
     {% endblock %}
 {% endblock %}

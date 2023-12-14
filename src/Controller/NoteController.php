@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Note;
+use App\Entity\Tag;
 use App\Entity\User;
 use App\Form\NoteType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -118,5 +119,21 @@ class NoteController extends AbstractController
 
         $this->em->flush();
         return new JsonResponse(['message' => 'Nota modificada correctamente']);
+    }
+
+    #[Route('/note/tag', name: 'app_tag' )]
+    public function newTag(Request $request): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+        // Verificar si se recibió el ID de la nota
+        if (!isset($data['name'])) {
+                    return new JsonResponse(['message' => 'Falta el parámetro ID en la solicitud'], 400);
+        }
+
+        $tag = new Tag();
+        $tag->setNombre($data['name']);
+        $this->em->persist($tag);
+        $this->em->flush();
+        return new JsonResponse(['message' => 'Etiqueta creada']);
     }
 }

@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\NoteRepository;
 use DateTimeImmutable;
 use DateTimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -38,6 +40,9 @@ class Note
 
     private string $text_color;
 
+    #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'notes')]
+    private Collection $tags;
+
     public function getTextColor(){
         return $this->text_color;
     }
@@ -58,6 +63,7 @@ class Note
         $this->title = $title;
         $this->content = $content;
         $this->color = $color;
+        $this->tags = new ArrayCollection();
     }
 
 
@@ -134,6 +140,30 @@ class Note
     public function setIdUser(?user $id_user): static
     {
         $this->id_user = $id_user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, tag>
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    public function addTag(tag $tag): static
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags->add($tag);
+        }
+
+        return $this;
+    }
+
+    public function removeTag(tag $tag): static
+    {
+        $this->tags->removeElement($tag);
 
         return $this;
     }
