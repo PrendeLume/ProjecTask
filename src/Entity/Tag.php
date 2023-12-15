@@ -16,7 +16,7 @@ class Tag
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255, unique: true)]
+    #[ORM\Column(length: 255)]
     private ?string $nombre = null;
 
     #[ORM\ManyToMany(targetEntity: Note::class, mappedBy: 'tags')]

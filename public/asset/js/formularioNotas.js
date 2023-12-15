@@ -1,10 +1,3 @@
-function Aparicionformulario() {
-    let button = document.getElementById('form01');
-    button.style.display = 'none'
-    let formulario = document.getElementById('formulario');
-    formulario.style.display = 'block';
-}
-
 function deleteNote(id) {
     let xhr = new XMLHttpRequest();
     let url = '/projecTask/public/index.php/note/delete';

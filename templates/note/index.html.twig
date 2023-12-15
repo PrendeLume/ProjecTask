@@ -4,8 +4,40 @@
 
 {% block body %}
     <br>
+    <form id="tagForm" class="w-50 mx-auto my-5" method="post" style="display: none">
+    {{ form_start(tagForm, {'attr': {'class': 'w-50 mx-auto my-5'}}) }}
+    <div class="row">
+        <div class="col">
 
-    <div id="formulario" style="display: none">
+            {{ form_label(tagForm.nombre) }}
+            {{ form_errors(tagForm.nombre) }}
+            {{ form_widget(tagForm.nombre) }}
+
+        </div>
+
+    </div>
+    <div class="row">
+
+        <div class="col">
+
+            {{ form_label(tagForm.notes) }}
+            {{ form_errors(tagForm.notes) }}
+            {{ form_widget(tagForm.notes) }}
+
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col d-flex justify-content-end">
+
+            <button type="submit" class="btn btn-primary" onclick="createTag()">Enviar</button>
+
+        </div>
+    </div>
+    {{ form_end(tagForm) }}
+    </form>
+    {# Fin del formulario de etiqueta #}
+    {# Inicio del formulario de nota #}
+    <div id="noteForm" style="display: none">
         {{ form_start(form, {'attr': {'class': 'w-50 mx-auto my-5'}}) }}
         <div class="row">
             <div class="col">
@@ -50,7 +82,9 @@
 
     <div class="row">
         <div class="col d-flex justify-content-center">
-            <button id="form01" type="button" class="btn btn-outline-success" onclick="Aparicionformulario()"><i class="fa-solid fa-plus"></i></button>
+            <button id="form01" type="button" class="btn btn-outline-success" onclick="Aparicionformulario('note')">Crear nota <i class="fa-solid fa-plus"></i></button>
+        </div><div class="col d-flex justify-content-center">
+            <button id="form02" type="button" class="btn btn-outline-success" onclick="Aparicionformulario('tag')">Crear Etiqueta <i class="fa-solid fa-plus"></i></button>
         </div>
     </div>
     <div id="listar-notas" class="row row-cols-auto">
@@ -60,7 +94,7 @@
                     <div class="card-header d-flex justify-content-between">
                         {{ note.title }}
                         <div class="d-flex justify-content-around">
-                            <a href="" class="btn" id="modificateTag" data-bs-toggle="modal" data-bs-target="#modalAddTag"><i class="fa-solid fa-tag" style="color: {{ note.getTextColor }}"></i></a>
+                            <a href="" class="btn" id="modificate{{ note.id }}" data-bs-toggle="modal" data-bs-target="#modalAddTag" data-note-id="{{ note.id }}"><i class="fa-solid fa-tag" style="color: {{ note.getTextColor }}"></i></a>
                             <a href="" class="btn" data-bs-toggle="modal" data-bs-target="#modal-modificate" onclick="getFormMod({{ note.id }})"><i class="fa-solid fa-pencil" style="color: {{ note.getTextColor }}"></i></a>
                             <a href="" class="btn" id="delete{{ note.id }}" onclick="deleteNote({{ note.id }})"><i class="fa-solid fa-x" style="color: {{ note.getTextColor }}"></i></a>
                         </div>
@@ -139,6 +173,7 @@
                     <form id="newTag" class="w-50 mx-auto my-5" method="post">
                         <div class="input-group input-group-sm mb-3">
                             <div class="input-group mb-3 w-100">
+                                <input id="etiquetaOculta" type="hidden">
                                 <input id="etiqueta" type="text" class="form-control " aria-label="Amount (to the nearest dollar)"  placeholder="Crear Etiqueta">
                                 <button class="input-group-text" id="btnEtiqueta"><i class="fa-solid fa-plus"></i></button>
                                 <button class="input-group-text" id="btnModificarEtiqueta"><i class="fa-solid fa-pencil"></i></button>
@@ -154,5 +189,6 @@
         {{ parent() }}
         <script src="{{ asset('asset/js/formularioNotas.js') }}"></script>
         <script src="{{ asset('asset/js/tags.js') }}"></script>
+        <script src="{{ asset('asset/js/showForm.js') }}"></script>
     {% endblock %}
 {% endblock %}

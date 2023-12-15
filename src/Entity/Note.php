@@ -43,7 +43,7 @@ class Note
     #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'notes')]
     private Collection $tags;
 
-    public function getTextColor(){
+    public function getTextColor(): string{
         return $this->text_color;
     }
     public function setTextColor(?string $color): static

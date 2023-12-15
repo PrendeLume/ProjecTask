@@ -6,15 +6,14 @@ use App\Entity\Note;
 use App\Entity\Tag;
 use App\Entity\User;
 use App\Form\NoteType;
+use App\Form\TagsType;
 use Doctrine\ORM\EntityManagerInterface;
-use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use function PHPUnit\Framework\isEmpty;
-use function Sodium\add;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class NoteController extends AbstractController
 {
@@ -27,8 +26,10 @@ class NoteController extends AbstractController
     public function index(Request $request): Response
     {
         $note = new Note('', '', '');
+        $tag = new Tag();
         $form = $this->createForm(NoteType::class, $note);
         $form2 = $this->createForm(NoteType::class, $note);
+        $tagForm = $this->createForm(TagsType::class, $tag);
         $session = $request->getSession();
 
         $user_repo = $this->em->getRepository(User::class)->findOneBy(['email' => $session->get('registro')]);
@@ -53,7 +54,8 @@ class NoteController extends AbstractController
         return $this->render('note/index.html.twig', [
             'notes' => $note,
             'form' => $form,
-            'form2' => $form2
+            'form2' => $form2,
+            'tagForm' => $tagForm
         ]);
     }
 
@@ -123,62 +125,30 @@ class NoteController extends AbstractController
         $this->em->flush();
         return new JsonResponse(['message' => 'Nota modificada correctamente']);
     }
-
-    #[Route('/note/tag', name: 'app_tag' )]
-    public function newTag(Request $request): JsonResponse
+    #[Route('/note/all', name: 'app_note_all')]
+    public function misNotas(Request $request, SerializerInterface $serializer): JsonResponse
     {
-        $data = json_decode($request->getContent(), true);
-        // Verificar si se recibió el ID de la nota
-        if (!isset($data['name'])) {
-            return new JsonResponse(['message' => 'Falta el parámetro Nombre en la solicitud'], 400);
-        }
+        $session = $request->getSession();
 
-        $tag = new Tag();
-        $tag->setNombre($data['name']);
-        $this->em->persist($tag);
-        $this->em->flush();
-        return new JsonResponse(['message' => 'Etiqueta creada']);
+        $user = $this->em->getRepository(User::class)->findOneBy(['email' => $session->get('registro')]);
+        if (!$user) {
+            return new JsonResponse(['message' => 'Usuario no encontrado'], 404);
+        }
+        $notes = $user->getNotes();
+        $formattedNotes = [];
+
+        foreach ($notes as $note) {
+            $formattedNotes[] = [
+                'id' => $note->getId(),
+                'title' => $note->getTitle(),
+                'content' => $note->getContent(),
+                'color' => $note->getColor(),
+                //'text-color' => $note->getTextColor(),
+                'modification' => $note->getModificationDate()
+                // Agrega aquí otras propiedades necesarias de la nota
+            ];
+        }
+        return new JsonResponse(['message' => 'Todos recogidos', 'data' => $formattedNotes]);
     }
 
-    #[Route('/note/tag/list', name: 'app_list_tag' )]
-    public function listTag(Request $request): JsonResponse
-    {
-        $tag_repo = $this->em->getRepository(Tag::class)->findAll();
-
-        $tagNames = [];
-
-        foreach ($tag_repo as $tag){
-            $tagNames[] = $tag->getNombre();
-        }
-        return new JsonResponse(['message' => 'Etiqueta recogida', 'etiquetas' => $tagNames]);
-    }
-
-    #[Route('/note/tag/delete', name: 'app_delete_tag' )]
-    public function deleteTag(Request $request): JsonResponse
-    {
-
-        $data = json_decode($request->getContent(), true);
-        if (!isset($data['data'])) {
-            return new JsonResponse(['message' => 'Falta el parámetro a borrar en la solicitud'], 400);
-        }
-        $tag_repo = $this->em->getRepository(Tag::class);
-        $probando = [];
-        foreach ($data['data'] as $tagName){
-            $tag = $tag_repo->findOneBy(['nombre' => $tagName]);
-
-            if (!$tag) {
-                return new JsonResponse(['message' => 'La etiqueta no existe'], 404);
-            }
-            $probando[] = $tagName;
-            $this->em->remove($tag);
-        }
-
-        $this->em->flush();
-        return new JsonResponse([
-            'message' => 'Etiqueta eliminada correctamente',
-            'probando' => $probando
-        ]);
-
-
-    }
 }
