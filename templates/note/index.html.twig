@@ -47,6 +47,7 @@
         {{ form_end(form) }}
     </div>
 
+
     <div class="row">
         <div class="col d-flex justify-content-center">
             <button id="form01" type="button" class="btn btn-outline-success" onclick="Aparicionformulario()"><i class="fa-solid fa-plus"></i></button>
@@ -59,7 +60,8 @@
                     <div class="card-header d-flex justify-content-between">
                         {{ note.title }}
                         <div class="d-flex justify-content-around">
-                            <a href="" class="btn" data-bs-toggle="modal" data-bs-target="#modal-modificate" onclick="getFormMod({{ note.id }})"><i class="fa-solid fa-gear " style="color: {{ note.getTextColor }}"></i></a>
+                            <a href="" class="btn" id="modificateTag" data-bs-toggle="modal" data-bs-target="#modalAddTag"><i class="fa-solid fa-tag"></i></a>
+                            <a href="" class="btn" data-bs-toggle="modal" data-bs-target="#modal-modificate" onclick="getFormMod({{ note.id }})"><i class="fa-solid fa-pencil"></i></a>
                             <a href="" class="btn" id="delete{{ note.id }}" onclick="deleteNote({{ note.id }})"><i class="fa-solid fa-x" style="color: {{ note.getTextColor }}"></i></a>
                         </div>
                     </div>
@@ -124,23 +126,26 @@
         </div>
     </div>
     {# Fin modal de modificación de las notas #}
+
     {# Modal de etiquetas #}
-    <div class="modal fade" id="crearTag" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modalAddTag" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Crear Etiqueta</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Añadir Etiqueta</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="newTag" class="w-50 mx-auto my-5" method="post">
                         <div class="input-group input-group-sm mb-3">
-                            <input id="etiqueta" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" placeholder="Crear Etiqueta">
+                            <div class="input-group mb-3 w-100">
+                                <input id="etiqueta" type="text" class="form-control " aria-label="Amount (to the nearest dollar)"  placeholder="Crear Etiqueta">
+                                <button class="input-group-text" id="btnEtiqueta"><i class="fa-solid fa-plus"></i></button>
+                                <button class="input-group-text" id="btnModificarEtiqueta"><i class="fa-solid fa-pencil"></i></button>
+                                <button class="input-group-text" id="btnBorrarEtiqueta"><i class="fa-solid fa-trash-can"></i></button>
+                            </div>
                         </div>
                     </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="btnEtiqueta">Crear</button>
                 </div>
             </div>
         </div>
