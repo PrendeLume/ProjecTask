@@ -60,8 +60,8 @@
                     <div class="card-header d-flex justify-content-between">
                         {{ note.title }}
                         <div class="d-flex justify-content-around">
-                            <a href="" class="btn" id="modificateTag" data-bs-toggle="modal" data-bs-target="#modalAddTag"><i class="fa-solid fa-tag"></i></a>
-                            <a href="" class="btn" data-bs-toggle="modal" data-bs-target="#modal-modificate" onclick="getFormMod({{ note.id }})"><i class="fa-solid fa-pencil"></i></a>
+                            <a href="" class="btn" id="modificateTag" data-bs-toggle="modal" data-bs-target="#modalAddTag"><i class="fa-solid fa-tag" style="color: {{ note.getTextColor }}"></i></a>
+                            <a href="" class="btn" data-bs-toggle="modal" data-bs-target="#modal-modificate" onclick="getFormMod({{ note.id }})"><i class="fa-solid fa-pencil" style="color: {{ note.getTextColor }}"></i></a>
                             <a href="" class="btn" id="delete{{ note.id }}" onclick="deleteNote({{ note.id }})"><i class="fa-solid fa-x" style="color: {{ note.getTextColor }}"></i></a>
                         </div>
                     </div>
